@@ -213,15 +213,22 @@ def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirs
             if length == 0:
                 return
 
-            for entry in newDir:
+            for index, entry in enumerate(newDir):
                 if displaySize:
                     entrySize = getFormattedEntrySize(entry)
+
                 if displayDate:
                     entryDate = getEntryDate(entry)
+
                 if level > 1:
                     print(TAB, end="")
                     print(TAB.join('│' for i in range(level-1)), end="")
-                print("{}├── {} {} {}".format(TAB, entry.name, entrySize, entryDate))
+                
+                if index == length-1:
+                    print("{}└── {} {} {}".format(TAB, entry.name, entrySize, entryDate))
+                else:
+                    print("{}├── {} {} {}".format(TAB, entry.name, entrySize, entryDate))
+
                 if entry.is_dir():
                     genSubtree(entry.path, level+1, maxDepth, displaySize, displayDate, dirFirst, sortBy, order)
 

@@ -197,9 +197,9 @@ def getSortedEntries(directory, order):
  
 def generateTree(directoryName, maxDepth=-1, displaySize=False, displayDate=False, dirFirst=False, sortBy="alpha", order="asc"):
     print(directoryName)
-    genSubtree(directoryName, 1, maxDepth, displaySize, displayDate, dirFirst, sortBy, order)
+    genSubtree(directoryName, 1, maxDepth, displaySize, displayDate, dirFirst, sortBy, order, [""])
 
-def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirst, sortBy, order):
+def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirst, sortBy, order, padding):
     entrySize = ''
     entryDate = ''
     if maxDepth == -1 or (maxDepth > -1  and level <= maxDepth):   
@@ -212,8 +212,13 @@ def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirs
             length = len(newDir)
             if length == 0:
                 return
+            
+            lastDir = list(entry.name for entry in newDir if entry.is_dir())
+            if len(lastDir) > 0:
+                lastDir = lastDir[-1]
 
             for index, entry in enumerate(newDir):
+                currentPadding = ""
                 if displaySize:
                     entrySize = getFormattedEntrySize(entry)
 
@@ -221,8 +226,9 @@ def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirs
                     entryDate = getEntryDate(entry)
 
                 if level > 1:
-                    print(TAB, end="")
-                    print(TAB.join('│' for i in range(level-1)), end="")
+                    # print(TAB, end="")
+                    # print(TAB.join('│' for i in range(level-1)), end="")
+                    print(TAB.join(padding), end="")
                 
                 if index == length-1:
                     print("{}└── {} {} {}".format(TAB, entry.name, entrySize, entryDate))
@@ -230,7 +236,13 @@ def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirs
                     print("{}├── {} {} {}".format(TAB, entry.name, entrySize, entryDate))
 
                 if entry.is_dir():
-                    genSubtree(entry.path, level+1, maxDepth, displaySize, displayDate, dirFirst, sortBy, order)
+                    if lastDir == entry.name:
+                        currentPadding = " "
+                    else:
+                        currentPadding = "│"
+                    padding.append(currentPadding)
+                    genSubtree(entry.path, level+1, maxDepth, displaySize, displayDate, dirFirst, sortBy, order, padding)
+                    padding.pop()
 
 def run():
     args = getCommandLineArguments()

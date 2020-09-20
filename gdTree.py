@@ -209,6 +209,10 @@ def genSubtree(directoryName, level, maxDepth, displaySize, displayDate, dirFirs
             newDir = getSortedEntries(newDir, order)
             newDir = getSortedDir(newDir, dirFirst)
 
+            length = len(newDir)
+            if length == 0:
+                return
+
             for entry in newDir:
                 if displaySize:
                     entrySize = getFormattedEntrySize(entry)

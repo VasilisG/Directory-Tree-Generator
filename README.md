@@ -1,7 +1,7 @@
 # Directory-Tree-Generator
 A Python tool used to generate the subdirectories of a directory.
 
-It features a list of parameter in which you can view the subdirectories.
+It features a list of parameters in which you can view the subdirectories.
 
 ## Usage
 You can use this tool as following:

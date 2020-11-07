@@ -14,7 +14,7 @@ You can type `gdTree.py -h` to see the parameters and how to use it.
 ## Example input and output
 
 ```
->python dgTree.py c:\\vso
+>python gdTree.py c:\\vso
 ```
 will return:
 
